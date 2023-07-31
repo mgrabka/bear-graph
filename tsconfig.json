@@ -13,8 +13,10 @@
     "resolveJsonModule": true,
     "jsx": "react",
     "paths": {
-      "*": ["node_modules/*"]
+      "*": ["node_modules/*"],
+      "@/*": ["src/*"],
+      "@styled-system/*": ["styled-system/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*.ts", "forge.config.ts", "styled-system"]
 }

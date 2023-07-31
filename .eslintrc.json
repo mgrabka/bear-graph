@@ -4,13 +4,18 @@
     "es6": true,
     "node": true
   },
+  "rules": {
+    "import/no-extraneous-dependencies": "off"
+  },
   "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:import/recommended",
-    "plugin:import/electron",
-    "plugin:import/typescript"
+    "airbnb",
+    "airbnb-typescript",
+    "prettier",
+    "prettier/react",
+    "prettier/@typescript-eslint"
   ],
-  "parser": "@typescript-eslint/parser"
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "tsconfig.json"
+  }
 }

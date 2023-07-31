@@ -1,24 +1,25 @@
-import { app, BrowserWindow , ipcMain } from 'electron';
-import { fetchLinks, fetchNodes, fetchNotePKs } from './bearDB';
+import { app, BrowserWindow, ipcMain } from 'electron';
+import { fetchBearBackLinks, fetchBearNotes } from './bearDB';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
+// eslint-disable-next-line
 if (require('electron-squirrel-startup')) {
   app.quit();
-} 
+}
 
 const createWindow = (): void => {
   const mainWindow = new BrowserWindow({
     height: 600,
     width: 800,
+    minHeight: 400,
+    minWidth: 600,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-
-  mainWindow.webContents.openDevTools();
 };
 app.on('ready', createWindow);
 
@@ -34,14 +35,14 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('fetch_graph_data_from_db', async (event) => {
+ipcMain.on('fetch_bear_notes_data_from_db', async (event) => {
   try {
-    const nodes = await fetchNodes()
-    const links = await fetchLinks()
+    const notes = await fetchBearNotes();
+    const backlinks = await fetchBearBackLinks();
 
-    event.reply('fetch_graph_data_from_db', { nodes, links });
+    event.reply('fetch_bear_notes_data_from_db', { notes, backlinks });
   } catch (error) {
     console.error(error);
-    event.reply('fetch_graph_data_from_db', error.message);
+    event.reply('fetch_bear_notes_data_from_db', error.message);
   }
 });

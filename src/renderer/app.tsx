@@ -1,19 +1,25 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-const handleClick = () => {
-  window.electron.ipcRenderer.once('fetch_graph_data_from_db', (arg) => {
-    // eslint-disable-next-line no-console
-    console.log(arg);
-  });
-  window.electron.ipcRenderer.sendMessage('fetch_graph_data_from_db');
-}
-function App() {
+import React, { Suspense } from 'react';
+import GraphInfo from './components/GraphInfo';
+import GraphCanvas from './components/GraphCanvas';
+
+export const App = () => {
   return (
-    <div>
-      <h2>Hello from React!</h2>
-      <button onClick={handleClick}>Fetch Note PKs</button>
+    <div className="relative h-screen w-screen overflow-hidden">
+      <Suspense
+        fallback={
+          <div
+            className="flex justify-center items-center h-screen"
+            style={{ color: '#484848' }}
+          >
+            Loading...
+          </div>
+        }
+      >
+        <GraphCanvas />
+        <div className="absolute bottom-0 right-0 p-6">
+          <GraphInfo backlinksCount={122} notesCount={33} />
+        </div>
+      </Suspense>
     </div>
   );
-}
-
-ReactDOM.render(<App />, document.getElementById('root'));
+};

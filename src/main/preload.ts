@@ -2,7 +2,7 @@
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
-export type Channels = 'ipc_example' | 'fetch_note_pk' | 'fetch_note_pk_reply';
+export type Channels = 'fetch_bear_notes_data_from_db';
 
 const electronHandler = {
   ipcRenderer: {
