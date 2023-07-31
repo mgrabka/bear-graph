@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Note, BackLink } from '../types/notes.interfaces';
+import { Note, BackLink } from './types/notes.interfaces';
 
 interface NotesState {
   notes: Note[];

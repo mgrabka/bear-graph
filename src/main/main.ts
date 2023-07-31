@@ -1,5 +1,5 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import { fetchBearBackLinks, fetchBearNotes } from './bearDB';
+import { fetchBearBackLinks, fetchBearNotes } from './bear-db';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;

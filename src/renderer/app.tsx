@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
-import GraphInfo from './components/GraphInfo';
-import GraphCanvas from './components/GraphCanvas';
+import GraphInfo from './ui/graph-info';
+import GraphCanvas from './ui/graph-canvas';
 
 export const App = () => {
   return (
@@ -9,7 +9,7 @@ export const App = () => {
         fallback={
           <div
             className="flex justify-center items-center h-screen"
-            style={{ color: '#484848' }}
+            style={{ color: '#  484848' }}
           >
             Loading...
           </div>

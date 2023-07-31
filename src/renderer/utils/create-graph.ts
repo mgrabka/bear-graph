@@ -1,10 +1,10 @@
 import { Node, Link } from '../types/graph.interfaces';
 import { Note, BackLink } from '../types/notes.interfaces';
 
-const createGraphFromNotes = (
+function createGraph(
   notes: Note[],
   backlinks: BackLink[],
-): { nodes: Node[]; links: Link[] } => {
+): { nodes: Node[]; links: Link[] } {
   const nodes: Node[] = notes.map((node) => ({
     id: `${node.id}`,
   }));
@@ -15,6 +15,6 @@ const createGraphFromNotes = (
   }));
 
   return { nodes, links };
-};
+}
 
-export default createGraphFromNotes;
+export default createGraph;

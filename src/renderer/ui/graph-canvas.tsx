@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Graph, GraphConfigInterface } from '@cosmograph/cosmos';
-import createGraphFromNotes from '../utils/createGraphFromNotes';
+import createGraph from '../utils/create-graph';
 import { Node, Link } from '../types/graph.interfaces';
 import useNotesStore from '../store';
+import getNoteUrl from '../utils/get-noteurl';
 
 const graphProperties = {
   backgroundColor: '#151515',
@@ -17,10 +18,13 @@ const graphProperties = {
 };
 
 const GraphCanvas = () => {
+  const [showButton, setShowButton] = useState(false);
+
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const graphRef = useRef<Graph<Node, Link> | null>(null);
 
-  const { updateBackLinks, updateNotes } = useNotesStore((state) => ({
+  const { notes, updateBackLinks, updateNotes } = useNotesStore((state) => ({
+    notes: state.notes,
     updateBackLinks: state.updateBackLinks,
     updateNotes: state.updateNotes,
   }));
@@ -39,8 +43,10 @@ const GraphCanvas = () => {
         if (node && i !== undefined && graphRef.current) {
           graphRef.current.selectNodeByIndex(i);
           graphRef.current.zoomToNodeByIndex(i, undefined, 10);
+          setShowButton(true);
         } else if (graphRef.current) {
           graphRef.current.unselectNodes();
+          setShowButton(false);
         }
         console.log('Clicked node: ', node);
       },
@@ -56,10 +62,7 @@ const GraphCanvas = () => {
     updateNotes(response.notes);
     updateBackLinks(response.backlinks);
 
-    const { nodes, links } = createGraphFromNotes(
-      response.notes,
-      response.backlinks,
-    );
+    const { nodes, links } = createGraph(response.notes, response.backlinks);
 
     graphRef.current.setData(nodes, links);
     graphRef.current.fitView(250);
@@ -101,7 +104,23 @@ const GraphCanvas = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} />;
+  const noteUrl = getNoteUrl(graphRef.current?.getSelectedNodes(), notes);
+
+  return (
+    <>
+      <canvas ref={canvasRef} />
+      {showButton && (
+        <div className="absolute bottom-0 left-0 p-6 flex flex-col">
+          <div>
+            <a href={noteUrl.open}>[Open note]</a>
+          </div>
+          <div>
+            <a href={noteUrl.trash}>[Trash note]</a>
+          </div>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default GraphCanvas;
