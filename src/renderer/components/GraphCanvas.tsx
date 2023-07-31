@@ -42,17 +42,6 @@ const GraphCanvas = () => {
     },
   };
 
-  let resizeTimer: NodeJS.Timeout;
-
-  const handleResize = () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      if (graphRef.current) {
-        graphRef.current.fitView(250);
-      }
-    }, 50);
-  };
-
   const refreshGraph = () => {
     window.electron.ipcRenderer.once(
       'fetch_bear_notes_data_from_db',
@@ -67,15 +56,36 @@ const GraphCanvas = () => {
     window.electron.ipcRenderer.sendMessage('fetch_bear_notes_data_from_db');
   };
 
+  const handleBlur = () => {
+    graphRef.current?.pause();
+  };
+
+  const handleFocus = () => {
+    graphRef.current?.start();
+  };
+
+  let resizeTimer: NodeJS.Timeout;
+
+  const handleResize = () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (graphRef.current) {
+        graphRef.current.fitView(250);
+      }
+    }, 50);
+  };
+
   useEffect(() => {
     if (!canvasRef.current) {
       return;
     }
 
     graphRef.current = new Graph(canvasRef.current, config);
-
-    window.addEventListener('resize', handleResize);
     refreshGraph();
+
+    window.addEventListener('blur', handleBlur);
+    window.addEventListener('focus', handleFocus);
+    window.addEventListener('resize', handleResize);
 
     return () => {
       graphRef.current?.pause();
