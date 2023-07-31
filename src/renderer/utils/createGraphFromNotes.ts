@@ -1,13 +1,10 @@
 import { Node, Link } from '../types/graph.interfaces';
 import { Note, BackLink } from '../types/notes.interfaces';
 
-const createGraphFromNotes = ({
-  notes,
-  backlinks,
-}: {
-  notes: Note[];
-  backlinks: BackLink[];
-}) => {
+const createGraphFromNotes = (
+  notes: Note[],
+  backlinks: BackLink[],
+): { nodes: Node[]; links: Link[] } => {
   const nodes: Node[] = notes.map((node) => ({
     id: `${node.id}`,
   }));

@@ -35,14 +35,8 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('fetch_bear_notes_data_from_db', async (event) => {
-  try {
-    const notes = await fetchBearNotes();
-    const backlinks = await fetchBearBackLinks();
-
-    event.reply('fetch_bear_notes_data_from_db', { notes, backlinks });
-  } catch (error) {
-    console.error(error);
-    event.reply('fetch_bear_notes_data_from_db', error.message);
-  }
+ipcMain.handle('fetch_bear_notes_data_from_db', async () => {
+  const notes = await fetchBearNotes();
+  const backlinks = await fetchBearBackLinks();
+  return { notes, backlinks };
 });

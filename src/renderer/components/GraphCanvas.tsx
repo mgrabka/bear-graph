@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Graph, GraphConfigInterface } from '@cosmograph/cosmos';
 import createGraphFromNotes from '../utils/createGraphFromNotes';
 import { Node, Link } from '../types/graph.interfaces';
-import { Note, BackLink } from '../types/notes.interfaces';
+import useNotesStore from '../store';
 
 const graphProperties = {
   backgroundColor: '#151515',
@@ -19,6 +19,11 @@ const graphProperties = {
 const GraphCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const graphRef = useRef<Graph<Node, Link> | null>(null);
+
+  const { updateBackLinks, updateNotes } = useNotesStore((state) => ({
+    updateBackLinks: state.updateBackLinks,
+    updateNotes: state.updateNotes,
+  }));
 
   const config: GraphConfigInterface<Node, Link> = {
     ...graphProperties,
@@ -42,18 +47,22 @@ const GraphCanvas = () => {
     },
   };
 
-  const refreshGraph = () => {
-    window.electron.ipcRenderer.once(
-      'fetch_bear_notes_data_from_db',
-      ({ notes, backlinks }: { notes: Note[]; backlinks: BackLink[] }) => {
-        const { nodes, links } = createGraphFromNotes({ notes, backlinks });
-        if (graphRef.current) {
-          graphRef.current.setData(nodes, links);
-          graphRef.current.fitView(250);
-        }
-      },
+  const refreshGraph = async () => {
+    if (!graphRef.current) {
+      return;
+    }
+    const response = await window.api.fetchBearNotes();
+
+    updateNotes(response.notes);
+    updateBackLinks(response.backlinks);
+
+    const { nodes, links } = createGraphFromNotes(
+      response.notes,
+      response.backlinks,
     );
-    window.electron.ipcRenderer.sendMessage('fetch_bear_notes_data_from_db');
+
+    graphRef.current.setData(nodes, links);
+    graphRef.current.fitView(250);
   };
 
   const handleBlur = () => {

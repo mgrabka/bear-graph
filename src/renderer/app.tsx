@@ -17,7 +17,7 @@ export const App = () => {
       >
         <GraphCanvas />
         <div className="absolute bottom-0 right-0 p-6">
-          <GraphInfo backlinksCount={122} notesCount={33} />
+          <GraphInfo />
         </div>
       </Suspense>
     </div>

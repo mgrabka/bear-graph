@@ -1,6 +1,9 @@
 import React from 'react';
+import useNotesStore from '../store';
 
-const GraphInfo = ({ backlinksCount = 0, notesCount = 0 }) => {
+const GraphInfo = () => {
+  const notesCount = useNotesStore((state) => state.notes.length);
+  const backlinksCount = useNotesStore((state) => state.backlinks.length);
   return (
     <div
       style={{ color: '#484848' }}
