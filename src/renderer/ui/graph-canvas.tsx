@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Graph, GraphConfigInterface } from '@cosmograph/cosmos';
 import createGraph from '../utils/create-graph';
-import { Node, Link } from '../types/graph.interfaces';
+import { Node, Link } from '../types';
 import useNotesStore from '../store';
-import getNoteUrl from '../utils/get-noteurl';
+import getSelectedNote from '../utils/get-selected-note';
+import SelectedNoteControl from './selected-note-control';
 
 const graphProperties = {
   backgroundColor: '#151515',
@@ -113,21 +114,14 @@ const GraphCanvas = ({
     };
   }, []);
 
-  const noteUrl = getNoteUrl(graphRef.current?.getSelectedNodes(), notes);
-
+  const selectedNote = getSelectedNote(
+    graphRef.current?.getSelectedNodes(),
+    notes,
+  );
   return (
     <>
       <canvas ref={canvasRef} />
-      {showButton && (
-        <div className="absolute bottom-0 left-0 p-6 flex flex-col">
-          <div>
-            <a href={noteUrl.open}>[Open note]</a>
-          </div>
-          <div>
-            <a href={noteUrl.trash}>[Trash note]</a>
-          </div>
-        </div>
-      )}
+      {showButton && <SelectedNoteControl selectedNote={selectedNote} />}
     </>
   );
 };

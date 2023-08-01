@@ -2,7 +2,7 @@ type NoteID = number;
 
 export interface Note {
   id: NoteID;
-  label: string;
+  title: string;
   uuid: string;
 }
 

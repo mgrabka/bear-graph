@@ -10,8 +10,9 @@ const App = () => {
   };
 
   if (error != null) {
-    return <ErrorScreen error={error} />;
+    return <ErrorScreen />;
   }
+
   return (
     <div className="relative h-screen w-screen overflow-hidden">
       <Suspense

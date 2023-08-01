@@ -30,7 +30,7 @@ export const fetchBearNotes = () => {
   const db = new Database(sqlitePath, { readonly: true });
 
   const stmt = db.prepare(
-    'SELECT Z_PK AS id, ZTITLE AS label, ZUNIQUEIDENTIFIER AS uuid FROM ZSFNOTE WHERE ZTRASHED = 0',
+    'SELECT Z_PK AS id, ZTITLE AS title, ZUNIQUEIDENTIFIER AS uuid FROM ZSFNOTE WHERE ZTRASHED = 0',
   );
   const notes = stmt.all();
 

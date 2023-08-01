@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ErrorScreen = ({ error }: { error: Error }) => {
+const ErrorScreen = () => {
   const handlePathSelect = async () => {
     await window.api.selectBearDbPath();
   };
@@ -13,10 +13,10 @@ const ErrorScreen = ({ error }: { error: Error }) => {
             Bear's database is either inaccessible or corrupted.
           </p>
           <button
-            className="text-xs text-zinc-600 underline"
+            className="text-xs text-zinc-600 underline hover:text-zinc-400"
             onClick={handlePathSelect}
           >
-            Choose path manually
+            Select path manually
           </button>
         </div>
       </div>

@@ -1,5 +1,4 @@
-import { Node, Link } from '../types/graph.interfaces';
-import { Note, BackLink } from '../types/notes.interfaces';
+import { Node, Link, Note, BackLink } from '../types';
 
 function createGraph(
   notes: Note[],
