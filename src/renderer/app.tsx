@@ -1,10 +1,34 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import GraphInfo from './ui/graph-info';
-import GraphCanvas from './ui/graph-canvas';
 import ErrorScreen from './ui/error-screen';
+import GraphVisualization from './ui/graph-visualization';
+import convertNotesToGraph from './utils/convert-notes-to-graph';
+import { Node, Link } from '@/shared/types';
 
 const App = () => {
   const [error, setError] = React.useState<Error | null>(null);
+
+  const [nodes, setNodes] = useState<Node[]>([]);
+  const [links, setLinks] = useState<Link[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await window.api.fetchBearNotes();
+        const { nodes, links } = convertNotesToGraph(
+          response.notes,
+          response.backlinks,
+        );
+        setNodes(nodes);
+        setLinks(links);
+      } catch (error) {
+        handleError(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleError = (error: Error | null) => {
     setError(error);
   };
@@ -25,9 +49,9 @@ const App = () => {
           </div>
         }
       >
-        <GraphCanvas onError={handleError} />
-        <div className="absolute bottom-0 right-0 p-6">
-          <GraphInfo />
+        <GraphVisualization nodes={nodes} links={links} />
+        <div className="absolute bottom-0 left-0 p-3">
+          <GraphInfo nodes={nodes} links={links} />
         </div>
       </Suspense>
     </div>

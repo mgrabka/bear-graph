@@ -3,6 +3,7 @@ import os from 'os';
 import Database from 'better-sqlite3';
 import { dialog } from 'electron';
 import { BrowserWindow } from 'electron';
+import { Note, Backlink } from '@/shared/types';
 
 const defaultSqlitePath = path.join(
   os.homedir(),
@@ -26,20 +27,20 @@ export const selectPath = () => {
   return path;
 };
 
-export const fetchBearNotes = () => {
+export const fetchBearNotes = (): Note[] => {
   const db = new Database(sqlitePath, { readonly: true });
 
   const stmt = db.prepare(
     'SELECT Z_PK AS id, ZTITLE AS title, ZUNIQUEIDENTIFIER AS uuid FROM ZSFNOTE WHERE ZTRASHED = 0',
   );
-  const notes = stmt.all();
+  const notes = stmt.all() as Note[];
 
   db.close();
 
   return notes;
 };
 
-export const fetchBearBackLinks = () => {
+export const fetchBearBacklinks = (): Backlink[] => {
   const db = new Database(sqlitePath, { readonly: true });
 
   const stmt = db.prepare(`
@@ -49,7 +50,7 @@ export const fetchBearBackLinks = () => {
     INNER JOIN ZSFNOTE AS N2 ON BL.ZLINKINGTO = N2.Z_PK
     WHERE N1.ZTRASHED = 0 AND N2.ZTRASHED = 0
   `);
-  const backlinks = stmt.all();
+  const backlinks = stmt.all() as Backlink[];
 
   db.close();
 

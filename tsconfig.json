@@ -24,6 +24,9 @@
     "styled-system",
     "src/renderer/renderer.tsx",
     "src/renderer/renderer.tsx",
-    "src/renderer/.js"
+    "src/renderer/.js",
+    "src/renderer/ui/index.tsx",
+    "src/main/bear-db.js",
+    "src/main/bear-db.js"
   ]
 }
