@@ -18,5 +18,12 @@
       "@styled-system/*": ["styled-system/*"]
     }
   },
-  "include": ["src/**/*.ts", "forge.config.ts", "styled-system"]
+  "include": [
+    "src/**/*.ts",
+    "forge.config.ts",
+    "styled-system",
+    "src/renderer/renderer.tsx",
+    "src/renderer/renderer.tsx",
+    "src/renderer/.js"
+  ]
 }

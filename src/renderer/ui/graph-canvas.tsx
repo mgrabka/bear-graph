@@ -17,7 +17,11 @@ const graphProperties = {
   randomSeed: 1,
 };
 
-const GraphCanvas = () => {
+const GraphCanvas = ({
+  onError,
+}: {
+  onError: (error: Error | null) => void;
+}) => {
   const [showButton, setShowButton] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -57,15 +61,20 @@ const GraphCanvas = () => {
     if (!graphRef.current) {
       return;
     }
-    const response = await window.api.fetchBearNotes();
 
-    updateNotes(response.notes);
-    updateBackLinks(response.backlinks);
+    try {
+      const response = await window.api.fetchBearNotes();
 
-    const { nodes, links } = createGraph(response.notes, response.backlinks);
+      updateNotes(response.notes);
+      updateBackLinks(response.backlinks);
 
-    graphRef.current.setData(nodes, links);
-    graphRef.current.fitView(250);
+      const { nodes, links } = createGraph(response.notes, response.backlinks);
+
+      graphRef.current.setData(nodes, links);
+      graphRef.current.fitView(250);
+    } catch (err) {
+      onError(err);
+    }
   };
 
   const handleBlur = () => {

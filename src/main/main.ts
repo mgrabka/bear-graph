@@ -1,5 +1,5 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import { fetchBearBackLinks, fetchBearNotes } from './bear-db';
+import { fetchBearBackLinks, fetchBearNotes, selectPath } from './bear-db';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -39,4 +39,9 @@ ipcMain.handle('fetch_bear_notes_data_from_db', async () => {
   const notes = await fetchBearNotes();
   const backlinks = await fetchBearBackLinks();
   return { notes, backlinks };
+});
+
+ipcMain.handle('select_bear_db_path', async () => {
+  const path = await selectPath();
+  return path;
 });

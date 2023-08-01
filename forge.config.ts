@@ -14,7 +14,12 @@ const config: ForgeConfig = {
     asar: true,
   },
   rebuildConfig: {},
-  makers: [new MakerSquirrel({}), new MakerZIP({}, ['darwin']), new MakerRpm({}), new MakerDeb({})],
+  makers: [
+    new MakerSquirrel({}),
+    new MakerZIP({}, ['darwin']),
+    new MakerRpm({}),
+    new MakerDeb({}),
+  ],
   plugins: [
     new AutoUnpackNativesPlugin({}),
     new WebpackPlugin({
@@ -24,7 +29,7 @@ const config: ForgeConfig = {
         entryPoints: [
           {
             html: './src/renderer/static/index.html',
-            js: './src/renderer/renderer.ts',
+            js: './src/renderer/renderer.tsx',
             name: 'main_window',
             preload: {
               js: './src/main/preload.ts',

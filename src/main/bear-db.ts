@@ -1,11 +1,30 @@
 import path from 'path';
 import os from 'os';
 import Database from 'better-sqlite3';
+import { dialog } from 'electron';
+import { BrowserWindow } from 'electron';
 
-const sqlitePath = path.join(
+const defaultSqlitePath = path.join(
   os.homedir(),
   '/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite',
 );
+
+let sqlitePath = defaultSqlitePath;
+
+export const selectPath = () => {
+  const path = dialog.showOpenDialogSync({
+    properties: ['openFile'],
+    defaultPath: defaultSqlitePath,
+  });
+
+  if (!path) return;
+
+  sqlitePath = path[0];
+  const focusedWindow = BrowserWindow.getFocusedWindow();
+
+  if (focusedWindow) focusedWindow.webContents.reload();
+  return path;
+};
 
 export const fetchBearNotes = () => {
   const db = new Database(sqlitePath, { readonly: true });
