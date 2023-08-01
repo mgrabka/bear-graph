@@ -1,4 +1,4 @@
-type NodeID = string;
+export type NodeID = string;
 
 export interface Node {
   id: NodeID;

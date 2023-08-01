@@ -6,7 +6,7 @@ export interface Note {
   uuid: string;
 }
 
-export interface BackLink {
+export interface Backlink {
   source: NoteID;
   target: NoteID;
 }

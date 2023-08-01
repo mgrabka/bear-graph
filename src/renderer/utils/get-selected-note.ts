@@ -1,16 +1,16 @@
 import { Note, Node } from '../types';
 
-const getSelectedNote = (selectedNodes: Node[], notes: Note[]) => {
+const getSelectedNote = (selectedNode: Node, notes: Note[]) => {
   let note = {
     id: 0,
     title: '',
     uuid: '',
   };
-
-  if (selectedNodes && selectedNodes.length > 0) {
+  if (selectedNode) {
     const noteOfSelectedNode = notes.find(
-      (note) => note.id === parseInt(selectedNodes[0].id),
+      (note) => note.id === parseInt(selectedNode.id),
     );
+
     if (noteOfSelectedNode) {
       note = noteOfSelectedNode;
     }

@@ -1,8 +1,8 @@
-import { Node, Link, Note, BackLink } from '../types';
+import { Node, Link, Note, Backlink } from '../types';
 
 function createGraph(
   notes: Note[],
-  backlinks: BackLink[],
+  backlinks: Backlink[],
 ): { nodes: Node[]; links: Link[] } {
   const nodes: Node[] = notes.map((node) => ({
     id: `${node.id}`,

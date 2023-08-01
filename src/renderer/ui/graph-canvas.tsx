@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Graph, GraphConfigInterface } from '@cosmograph/cosmos';
 import createGraph from '../utils/create-graph';
-import { Node, Link } from '../types';
-import useNotesStore from '../store';
+import { Note, Node, Link } from '../types';
+
 import getSelectedNote from '../utils/get-selected-note';
 import SelectedNoteControl from './selected-note-control';
+import { useAtom } from 'jotai';
+import { notesAtom, backlinksAtom } from '../store';
 
 const graphProperties = {
   backgroundColor: '#151515',
@@ -23,16 +25,20 @@ const GraphCanvas = ({
 }: {
   onError: (error: Error | null) => void;
 }) => {
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [showButton, setShowButton] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const graphRef = useRef<Graph<Node, Link> | null>(null);
 
-  const { notes, updateBackLinks, updateNotes } = useNotesStore((state) => ({
-    notes: state.notes,
-    updateBackLinks: state.updateBackLinks,
-    updateNotes: state.updateNotes,
-  }));
+  const [notes, setNotes] = useAtom(notesAtom);
+  const [_, setBacklinks] = useAtom(backlinksAtom);
+
+  const notesRef = useRef(notes);
+
+  useEffect(() => {
+    notesRef.current = notes;
+  }, [notes]);
 
   const config: GraphConfigInterface<Node, Link> = {
     ...graphProperties,
@@ -45,12 +51,17 @@ const GraphCanvas = ({
     },
     events: {
       onClick: (node, i) => {
-        if (node && i !== undefined && graphRef.current) {
+        if (node && i !== undefined && graphRef.current && notes) {
           graphRef.current.selectNodeByIndex(i);
           graphRef.current.zoomToNodeByIndex(i, undefined, 10);
+
+          setSelectedNote(getSelectedNote(node, notesRef.current));
+
           setShowButton(true);
         } else if (graphRef.current) {
           graphRef.current.unselectNodes();
+
+          setSelectedNote(null);
           setShowButton(false);
         }
         console.log('Clicked node: ', node);
@@ -66,8 +77,8 @@ const GraphCanvas = ({
     try {
       const response = await window.api.fetchBearNotes();
 
-      updateNotes(response.notes);
-      updateBackLinks(response.backlinks);
+      setNotes(response.notes);
+      setBacklinks(response.backlinks);
 
       const { nodes, links } = createGraph(response.notes, response.backlinks);
 
@@ -114,10 +125,6 @@ const GraphCanvas = ({
     };
   }, []);
 
-  const selectedNote = getSelectedNote(
-    graphRef.current?.getSelectedNodes(),
-    notes,
-  );
   return (
     <>
       <canvas ref={canvasRef} />

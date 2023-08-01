@@ -39,7 +39,7 @@ export const fetchBearNotes = () => {
   return notes;
 };
 
-export const fetchBearBackLinks = () => {
+export const fetchBearBacklinks = () => {
   const db = new Database(sqlitePath, { readonly: true });
 
   const stmt = db.prepare(`
