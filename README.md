@@ -18,8 +18,11 @@ This behaviour is not due to app being unsafe for your system, but the fact of h
 \(You need to have npm/node and git installed\)
 
 `git clone https://github.com/Chuckleroot/bear-graph.git`
+
 `npm install`
+
 `npm run package`
+
 and open bear-graph/out/Bear Graph-darwin-arm64/Bear Graph.app
 
 ## Usage
