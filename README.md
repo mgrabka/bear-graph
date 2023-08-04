@@ -1,6 +1,21 @@
 ![Bear Graph View](./img/repo-header.png)
 
+
 ## Installation
+
+\(You need to have npm/node and git installed\)
+
+`git clone https://github.com/Chuckleroot/bear-graph.git`
+
+`npm install`
+
+`npm run package`
+
+and open bear-graph/out/Bear Graph-darwin-arm64/Bear Graph.app
+
+## Alternative Installation (for now)
+
+Due to the fact the app is not signed yet, this is less recommended, especially that it will require you to modify security settings.
 
 On the right-hand side of the github page, you'll find the "Releases" section. Here, you can find a link to the v1.0.0 release. Alternatively, [click here to download dmg directly](https://github.com/Chuckleroot/bear-graph/releases/download/v1.0.0/Bear.Graph-1.0.0-arm64.dmg) (just open the dmg and move application file to your applications folder, then just run the app from there like any other app on your macOS)
 
