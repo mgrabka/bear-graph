@@ -28,18 +28,6 @@ If you don't feel safe with this option turned on, simply type in terminal `sudo
 
 This behaviour is not due to app being unsafe for your system, but the fact of how signing works on macOS. Developers need to pay around $99/yr for a membership to sign their apps. I, however, can't afford it for just one non-profit project. Hope you understand!
 
-## Build from source
-
-\(You need to have npm/node and git installed\)
-
-`git clone https://github.com/Chuckleroot/bear-graph.git`
-
-`npm install`
-
-`npm run package`
-
-and open bear-graph/out/Bear Graph-darwin-arm64/Bear Graph.app
-
 ## Usage
 
 `⌘ + R` to refresh the graph
