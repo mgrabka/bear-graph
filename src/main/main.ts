@@ -31,13 +31,12 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.handle('fetch_bear_notes_data_from_db', async () => {
-  const notes = await fetchBearNotes();
-  const backlinks = await fetchBearBacklinks();
+ipcMain.handle('fetch_bear_notes_data_from_db', () => {
+  const notes = fetchBearNotes();
+  const backlinks = fetchBearBacklinks();
   return { notes, backlinks };
 });
 
-ipcMain.handle('select_bear_db_path', async () => {
-  const path = await selectPath();
-  return path;
+ipcMain.handle('select_bear_db_path', () => {
+  selectPath();
 });

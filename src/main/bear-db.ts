@@ -12,7 +12,7 @@ const defaultSqlitePath = path.join(
 
 let sqlitePath = defaultSqlitePath;
 
-export const selectPath = () => {
+export const selectPath = (): void => {
   const path = dialog.showOpenDialogSync({
     properties: ['openFile'],
     defaultPath: defaultSqlitePath,
@@ -24,7 +24,6 @@ export const selectPath = () => {
   const focusedWindow = BrowserWindow.getFocusedWindow();
 
   if (focusedWindow) focusedWindow.webContents.reload();
-  return path;
 };
 
 export const fetchBearNotes = (): Note[] => {

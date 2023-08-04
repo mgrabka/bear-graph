@@ -1,6 +1,6 @@
 ![Bear Graph View](./img/repo-header.png)
 
-## Install
+## Installation
 
 On the right-hand side of the github page, you'll find the "Releases" section. Here, you can find a link to the v1.0.0 release. Alternatively, [click here to download dmg directly](https://github.com/Chuckleroot/bear-graph/releases/download/v1.0.0/Bear.Graph-1.0.0-arm64.dmg) (just open the dmg and move application file to your applications folder, then just run the app from there like any other app on your macOS)
 
@@ -12,6 +12,15 @@ Open the command line/terminal. Type in `sudo spctl --master-disable` \- it will
 If you don't feel safe with this option turned on, simply type in terminal `sudo spctl --master-enable` \- it will go back to normal.
 
 This behaviour is not due to app being unsafe for your system, but the fact of how signing works on macOS. Developers need to pay around $99/yr for a membership to sign their apps. I, however, can't afford it for just one non-profit project. Hope you understand!
+
+## Build from source
+
+\(You need to have npm/node and git installed\)
+
+`git clone https://github.com/Chuckleroot/bear-graph.git`
+`npm install`
+`npm run package`
+and open bear-graph/out/Bear Graph-darwin-arm64/Bear Graph.app
 
 ## Usage
 

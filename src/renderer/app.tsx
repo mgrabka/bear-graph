@@ -6,7 +6,7 @@ import convertNotesToGraph from './utils/convert-notes-to-graph';
 import { Node, Link } from '@/shared/types';
 
 const App = () => {
-  const [error, setError] = React.useState<Error | null>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   const [nodes, setNodes] = useState<Node[]>([]);
   const [links, setLinks] = useState<Link[]>([]);
